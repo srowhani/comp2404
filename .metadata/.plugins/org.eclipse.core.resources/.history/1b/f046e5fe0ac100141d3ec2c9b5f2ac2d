@@ -1,0 +1,119 @@
+/**
+ * @author Seena Rowhani
+ * Queue.cc
+ * Implementation of lib/Queue.h
+ *
+ * Doubly linked list that provides a set
+ * of utility functions to manage a collection
+ * of Nodes.
+ */
+
+#include <iostream>
+#include "../lib/Queue.h"
+
+Queue :: Queue() : head(0), tail(0){}
+
+Queue :: Queue(const Queue& q)
+{
+	Node* currentNode;
+	currentNode = head = tail = q.head;
+
+	while (currentNode != 0)
+	{
+		this->push(currentNode->data);
+		currentNode = currentNode->next;
+	}
+}
+
+Queue :: ~Queue()
+{
+	for(int i = 0 ; i < size ; i++);
+}
+/**
+ * I specified a destroy function, because I don't
+ * want to remove the nodes every time I get rid of a
+ * PArray
+ */
+void Queue :: destroy()
+{
+	std::cout << "Destroying Queue\n";
+	Node* currentNode = this->head;
+	while(currentNode != 0)
+	{
+		Node* next = currentNode->next;
+		delete currentNode;
+		currentNode = next;
+	}
+}
+/**
+ *  void push
+ *  @param Pirate* p
+ *  Takes a pirate, and appends it to the queue
+ */
+void Queue :: push(Pirate* p)
+{
+	tail->next = new Node(p);
+	tail = tail->next;
+}
+
+/**
+ * void pop
+ * Removes the pirate Node at the front
+ * of the Queue
+ */
+void Queue :: pop()
+{
+	Node* oldHead = head;
+	head = head->next; //new head
+	delete oldHead;
+}
+
+/**
+ * Node* find
+ * @param Pirate* p
+ *
+ * Returns the node that contains the specified Pirate
+ * Otherwise, will return NULL (0)
+ */
+Node* Queue :: find(int& id)
+{
+	Node* currentNode = head;
+	while(currentNode != 0){
+		if(currentNode->data->id == id) return currentNode;
+		currentNode = currentNode->next;
+	}
+	return 0;
+}
+
+Node* Queue :: get(int& i)
+{
+	Node* currentNode = head;
+	int c = 0;
+	while(currentNode != 0){
+		if (c == i) return currentNode;
+		currentNode = currentNode->next;
+		++c;
+	}
+	return 0;
+}
+
+
+bool Queue :: remove(int& id)
+{
+	Node* currentNode = head;
+	while(currentNode != 0){
+		if(currentNode->data->id == id){
+			if(currentNode->prev != 0)
+				currentNode->prev->next = currentNode->next;
+			if(currentNode->next != 0)
+				currentNode->next->prev = currentNode->prev;
+			delete currentNode;
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Queue :: empty(){return head == 0;}
+Pirate* Queue :: front(){return head;}
+Pirate* Queue :: back(){return tail;}

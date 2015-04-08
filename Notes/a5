@@ -1,0 +1,6 @@
+Assignment 5
+
+Learning Objectives
+	STL List instead of CArray (not a vector) of Cell*
+	std::list<Cell*> cellList;
+	cellList.insert(cellList.begin(), <ITEM TO ADD>);

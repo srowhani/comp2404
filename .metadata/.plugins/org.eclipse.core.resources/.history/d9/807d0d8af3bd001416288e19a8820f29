@@ -1,0 +1,24 @@
+#ifndef QUEUE_H
+#define QUEUE_H
+
+
+#include "Node.h"
+/**
+ *
+ */
+class Queue
+{
+public:
+	Queue();
+	Queue(Queue& const);
+	void push();
+	void pop();
+	Pirate* front();
+
+private:
+	Node* head;
+
+};
+
+
+#endif
